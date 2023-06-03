@@ -126,7 +126,7 @@ module watch_bindec(
 
 	logic [3:0] num_now;
 
-	display7(
+	display7 disp(
 		.num(num_now), 
 		.*
 		);
@@ -181,7 +181,7 @@ module watch_bindec(
 			end
 
 
-	end: pwm_disp
+	end:pwm_disp
 
 
 endmodule;
