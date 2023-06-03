@@ -108,7 +108,7 @@ module watch_bindec(
 			end
 		end else begin
 			hourdec_now <= hourdec_init;
-			hourine_now <= hourdec_init;
+			hourone_now <= hourdec_init;
 			mindec_now <= mindec_init;
 			minone_now <= minone_init;
 			tim_en <= 1;
@@ -122,7 +122,7 @@ module watch_bindec(
 
 
 
-
+    
 
 	logic [3:0] num_now;
 
@@ -146,7 +146,8 @@ module watch_bindec(
 	end:state_reg
 
 
-	always_comb begin:pwm_disp
+	always_comb begin
+	    AN[6:4]<=1;
 		case(state)
 			MINONE: begin	
 				AN[0:0] = 0;
@@ -179,9 +180,9 @@ module watch_bindec(
 				nextstate = MINDEC;
 
 			end
+        endcase
+
+	end
 
 
-	end:pwm_disp
-
-
-endmodule;
+endmodule

@@ -13,7 +13,7 @@ module tb_watch();
 		.*
 		);
 
-	task wait(input integer num_clk);
+	task waitin(input integer num_clk);
 		integer i;
 		for(i = 0; i<num_clk; i=i+1) begin
 			@(posedge clk);
@@ -27,9 +27,9 @@ module tb_watch();
 	initial begin
 		clk = 0;
 		rstn = 1;
-		wait(2);
+		waitin(2);
 		rstn = 0;
-		wait(2);
+		waitin(2);
 		rstn = 1;
 
 
