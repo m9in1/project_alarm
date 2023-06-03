@@ -14,10 +14,13 @@ module watch_bindec(
 	input 				tim_over,
 	output logic		tim_en,
 
-	output logic 		CA,CB,CC,CE,CF,CG,
+	output logic 		CA,CB,CC,CD,CE,CF,CG,
 	output logic [6:0]	AN
 
 );
+
+
+	
 
 	logic [5:0] counter_sec;
 
@@ -28,18 +31,16 @@ module watch_bindec(
 
 	logic [5:0] counter_min;
 
-	always@(negedge rstn) begin:init
+	/*always@(negedge rstn) begin:init
 		hourdec_now <= hourdec_init;
 		hourine_now <= hourdec_init;
 		mindec_now <= mindec_init;
 		minone_now <= minone_init;
 		tim_en <= 1;
 		counter_sec <= 0;
-	end:init
+	end:init*/
 
-	always@(posedge rstn) begin
-		tim_en<=0;
-	end
+
 
 	/*always@(posedge clk) begin
 		if(tim_over) begin
@@ -63,47 +64,57 @@ module watch_bindec(
 
 
 
-	always@(posedge clk) begin
-		if(tim_over) begin
-			tim_en<=1;
-			if(counter_sec<59) begin
 
-				counter_sec <= counter_sec+1;
+	always@(posedge clk or negedge rstn) begin
+		if(rstn) begin
+			if(tim_over) begin
+				tim_en<=1;
+				if(counter_sec<59) begin
 
-			end else begin
-
-				counter_sec <= 0;
-
-				if(minone_now<9) begin
-
-					minone_now <= minone_now + 1;
+					counter_sec <= counter_sec+1;
 
 				end else begin
-					minone_now <= 0;
-					if(mindec_now<5) begin
 
-						mindec_now <= mindec_now + 1; 
+					counter_sec <= 0;
+
+					if(minone_now<9) begin
+
+						minone_now <= minone_now + 1;
 
 					end else begin
-						mindec_now <= 0;
-						if(hourone_now==3&&hourdec_now==2) begin
-							hourone_now <= 0;
-							hourdec_now <= 0;
+						minone_now <= 0;
+						if(mindec_now<5) begin
+
+							mindec_now <= mindec_now + 1; 
+
 						end else begin
-							if(hourone_now<9) begin
-								hourone_now <= hourone_now + 1;
-							end else begin
+							mindec_now <= 0;
+							if(hourone_now==3&&hourdec_now==2) begin
 								hourone_now <= 0;
-								hourdec_now <= hourdec_now + 1;
-							end:hourone<9
-						end:hournow==23
-					end:mindec<5
-				end:minone<9
-			end:tim_over==1
+								hourdec_now <= 0;
+							end else begin
+								if(hourone_now<9) begin
+									hourone_now <= hourone_now + 1;
+								end else begin
+									hourone_now <= 0;
+									hourdec_now <= hourdec_now + 1;
+								end
+							end
+						end
+					end
+				end
 
 
-		end:timover
+			end
+		end else begin
+			hourdec_now <= hourdec_init;
+			hourine_now <= hourdec_init;
+			mindec_now <= mindec_init;
+			minone_now <= minone_init;
+			tim_en <= 1;
+			counter_sec <= 0;
 
+		end
 	end
 
 
@@ -135,7 +146,7 @@ module watch_bindec(
 	end:state_reg
 
 
-	always begin:pwm_disp
+	always_comb begin:pwm_disp
 		case(state)
 			MINONE: begin	
 				AN[0:0] = 0;
