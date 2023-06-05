@@ -4,7 +4,7 @@ module tb_watch();
 
 
 	logic clk, rstn;
-	logic [6:0]AN;
+	logic [7:0]AN;
 	logic CA,CB,CC,CE,CD,CF,CG;
 
 	top_artyx top(
@@ -26,11 +26,11 @@ module tb_watch();
 
 	initial begin
 		clk = 0;
+		rstn =01;
+		waitin(2);
 		rstn = 1;
 		waitin(2);
 		rstn = 0;
-		waitin(2);
-		rstn = 1;
 
 
 

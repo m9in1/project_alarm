@@ -1,5 +1,6 @@
 module watch_bindec(
 	input 				clk,
+	input               clk_disp,
 	input 				rstn,
 	input [3:0] 		hourdec_init,
 	input [3:0] 		hourone_init,
@@ -11,11 +12,11 @@ module watch_bindec(
 	output logic [3:0]	mindec_now,
 	output logic [3:0] 	minone_now,
 
-	input 				tim_over,
-	output logic		tim_en,
+	//input 				tim_over,
+	//output logic		tim_en,
 
 	output logic 		CA,CB,CC,CD,CE,CF,CG,
-	output logic [6:0]	AN
+	output logic [7:0]	AN
 
 );
 
@@ -105,10 +106,10 @@ module watch_bindec(
 
 		end else begin
 			hourdec_now <= hourdec_init;
-			hourone_now <= hourdec_init;
+			hourone_now <= hourone_init;
 			mindec_now <= mindec_init;
 			minone_now <= minone_init;
-			tim_en <= 1;
+			//tim_en <= 1;
 			counter_sec <= 0;
 
 		end
@@ -138,13 +139,13 @@ module watch_bindec(
 	states state, nextstate;
 
 
-	always@(posedge clk or negedge rstn) begin:state_reg
+	always@(posedge clk_disp or negedge rstn) begin:state_reg
 		state<=rstn ? nextstate : MINONE;
 	end:state_reg
 
 
 	always_comb begin
-	    AN[6:4]<=1;
+	    AN[7:4]<=1;
 		case(state)
 			MINONE: begin	
 				AN[0:0] = 0;
