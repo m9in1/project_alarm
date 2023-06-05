@@ -67,8 +67,7 @@ module watch_bindec(
 
 	always@(posedge clk or negedge rstn) begin
 		if(rstn) begin
-			if(tim_over) begin
-				tim_en<=1;
+
 				if(counter_sec<59) begin
 
 					counter_sec <= counter_sec+1;
@@ -104,8 +103,6 @@ module watch_bindec(
 					end
 				end
 
-
-			end
 		end else begin
 			hourdec_now <= hourdec_init;
 			hourone_now <= hourdec_init;
