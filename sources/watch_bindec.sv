@@ -1,6 +1,6 @@
 module watch_bindec(
 	input 				clk,
-	input               clk_disp,
+	//input               clk_disp,
 	input 				rstn,
 	input [3:0] 		hourdec_init,
 	input [3:0] 		hourone_init,
@@ -10,13 +10,13 @@ module watch_bindec(
 	output logic [3:0] 	hourdec_now,
 	output logic [3:0] 	hourone_now,
 	output logic [3:0]	mindec_now,
-	output logic [3:0] 	minone_now,
+	output logic [3:0] 	minone_now
 
 	//input 				tim_over,
 	//output logic		tim_en,
 
-	output logic 		CA,CB,CC,CD,CE,CF,CG,
-	output logic [7:0]	AN
+	//output logic 		CA,CB,CC,CD,CE,CF,CG,
+	//output logic [7:0]	AN
 
 );
 
@@ -122,65 +122,65 @@ module watch_bindec(
 
     
 
-	logic [3:0] num_now;
+//	logic [3:0] num_now;
 
-	display7 disp(
-		.num(num_now), 
-		.*
-		);
+//	display7 disp(
+//		.num(num_now), 
+//		.*
+//		);
 
-	typedef enum logic [1:0] {
-		MINONE,
-		MINDEC,
-		HOURONE,
-		HOURDEC
-	} states;
+//	typedef enum logic [1:0] {
+//		MINONE,
+//		MINDEC,
+//		HOURONE,
+//		HOURDEC
+//	} states;
 
-	states state, nextstate;
-
-
-	always@(posedge clk_disp or negedge rstn) begin:state_reg
-		state<=rstn ? nextstate : MINONE;
-	end:state_reg
+//	states state, nextstate;
 
 
-	always_comb begin
-	    AN[7:4]<=1;
-		case(state)
-			MINONE: begin	
-				AN[0:0] = 0;
-				AN[3:1] = 1;
-				num_now = minone_now;
-				nextstate = MINDEC;
-			end
+//	always@(posedge clk_disp or negedge rstn) begin:state_reg
+//		state<=rstn ? nextstate : MINONE;
+//	end:state_reg
 
-			MINDEC: begin
-				AN[1:1] = 0;
-				AN[0:0] = 1;
-				AN[3:2] = 1;
-				num_now = mindec_now;
-				nextstate = HOURONE;
 
-			end
+//	always_comb begin
+//	    AN[7:4]<=1;
+//		case(state)
+//			MINONE: begin	
+//				AN[0:0] = 0;
+//				AN[3:1] = 1;
+//				num_now = minone_now;
+//				nextstate = MINDEC;
+//			end
 
-			HOURONE: begin
-				AN[2:2] = 0;
-				AN[1:0] = 1;
-				AN[3:3] = 1;
-				num_now = hourone_now;
-				nextstate = HOURDEC;
-			end
+//			MINDEC: begin
+//				AN[1:1] = 0;
+//				AN[0:0] = 1;
+//				AN[3:2] = 1;
+//				num_now = mindec_now;
+//				nextstate = HOURONE;
 
-			HOURDEC: begin
-				AN[2:0] = 1;
-				AN[3:3] = 0;
-				num_now = hourdec_now;
-				nextstate = MINDEC;
+//			end
 
-			end
-        endcase
+//			HOURONE: begin
+//				AN[2:2] = 0;
+//				AN[1:0] = 1;
+//				AN[3:3] = 1;
+//				num_now = hourone_now;
+//				nextstate = HOURDEC;
+//			end
 
-	end
+//			HOURDEC: begin
+//				AN[2:0] = 1;
+//				AN[3:3] = 0;
+//				num_now = hourdec_now;
+//				nextstate = MINDEC;
+
+//			end
+//        endcase
+
+	//end
 
 
 endmodule

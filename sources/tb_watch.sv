@@ -4,13 +4,13 @@ module tb_watch();
 
 
 	logic clk, rstn;
-	logic [7:0]AN;
-	logic CA,CB,CC,CE,CD,CF,CG;
-
+	//logic [7:0]AN;
+	//logic CA,CB,CC,CE,CD,CF,CG;
+    logic [15:0] LED;
 	top_artyx top(
 		.CLK100MHZ(clk),
 		.BTNC(rstn),
-		.*
+		.LED(LED)
 		);
 
 	task waitin(input integer num_clk);
@@ -22,11 +22,11 @@ module tb_watch();
 
 	endtask
 
-	always #5 clk=~clk;
+	always #10 clk=~clk;
 
 	initial begin
 		clk = 0;
-		rstn =01;
+		rstn =0;
 		waitin(2);
 		rstn = 1;
 		waitin(2);

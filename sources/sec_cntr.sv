@@ -1,5 +1,5 @@
 module div_clk
-#(parameter MAX_CNT = 10000)
+#(parameter MAX_CNT = 1000000)
 
 (
 	input clk,
@@ -7,7 +7,7 @@ module div_clk
 	output logic clk_sec
 		);
 	
-	logic [13:0] clk_cntr;
+	logic [$clog2(MAX_CNT):0] clk_cntr;
 	logic state;
 
 	always@(posedge clk or negedge rstn) begin
