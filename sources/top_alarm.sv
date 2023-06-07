@@ -1,9 +1,12 @@
 module top_alarm(
 	input clk,
 	input rstn,
+	input bud_en,
 	input [3:0] hourdec_init, hourone_init, mindec_init, minone_init,
 	output logic [3:0] hourdec_now, hourone_now, mindec_now, minone_now,
-	output clk_sec_o
+	input [3:0] hourdec_bud, hourone_bud, mindec_bud, minone_bud,
+	output clk_sec_o,
+	output bud_state_o
 	//output CA,CB,CC,CD,CE,CF,CG,
 	//output [7:0] AN,
 	//output [15:0] led
@@ -36,23 +39,53 @@ module top_alarm(
 		);
 
 
-	div_clk
-	#(.MAX_CNT(1000000000))//00))//????? its working for 100MHZ
-	 sec_cnt(
-		.clk(clk),
-		.rstn(rstn),
-		.clk_sec(clk_sec)
-		);	
-		
-		
-	div_clk
-	#(.MAX_CNT(100))
-	 disp_clk(
-		.clk(clk),
-		.rstn(rstn),
-		.clk_sec(clk_disp)
-		);	
 
+	//here will be sound module(clk100mhz, rstn, aud_en, pwm.....)....
+
+
+
+
+	sound_control sound_control(
+		.clk_sec(clk_sec),
+		.rstn(rstn),
+		.bud_on(bud_on),
+		.bud_state(bud_state_o),
+		.*
+		);
+
+
+
+	clk_div #(
+		.N(28),
+		.WIDTH(100000000)
+		)
+	clk_sec(
+		.clk(clk),
+		.rst_n(rstn),
+		.o_clk(clk_sec)
+				);
+
+
+	// div_clk
+	// #(.MAX_CNT(1000000000))//00))//????? its working for 100MHZ
+	//  sec_cnt(
+	// 	.clk(clk),
+	// 	.rstn(rstn),
+	// 	.clk_sec(clk_sec)
+	// 	);	
+		
+		
+	// div_clk
+	// #(.MAX_CNT(100))
+	//  disp_clk(
+	// 	.clk(clk),
+	// 	.rstn(rstn),
+	// 	.clk_sec(clk_disp)
+	// 	);	
+
+
+
+	
 
 	
 
