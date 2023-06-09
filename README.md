@@ -1,4 +1,4 @@
-Hello. Its Project Alarm for Arty A7. Very alpha
+Hello. Its Project Alarm for Arty A7. Very alpha. 
 Right now I have next plan for this project:
 
 1. Making first minimal modules, thinkig about future design
