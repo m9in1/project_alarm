@@ -5,7 +5,7 @@ module top_alarm(
 	input [3:0] hourdec_init, hourone_init, mindec_init, minone_init,
 	output logic [3:0] hourdec_now, hourone_now, mindec_now, minone_now,
 	input [3:0] hourdec_bud, hourone_bud, mindec_bud, minone_bud,
-	output clk_sec_o,
+	//output clk_sec_o,
 	output bud_state_o
 	//output CA,CB,CC,CD,CE,CF,CG,
 	//output [7:0] AN,
@@ -47,10 +47,11 @@ module top_alarm(
 
 	sound_control sound_control(
 		//.clk_sec(clk_sec),
-		.clk_sec(clk),
+		.clk_sec(clk_sec),
 		.rstn(rstn),
-		.bud_on(bud_on),
+		.bud_on(bud_en),
 		.bud_state(bud_state_o),
+		.aud_en(aud_en),
 		.*
 		);
 
@@ -67,7 +68,7 @@ module top_alarm(
 				);
 				
 	clk_div #(
-		.N(1000),
+		.N(100),
 		.WIDTH(11)
 		)
 	clk_msec_module(
@@ -77,7 +78,8 @@ module top_alarm(
 				);
 
     clk_div #(
-		.N(1000),
+		//.N(1000), //real
+		.N(1),   //sim
 		.WIDTH(11)
 		)
 	clk_sec_module(
