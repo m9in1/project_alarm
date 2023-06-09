@@ -11,7 +11,7 @@ module sound_control(
 	
 	logic [2:0] counter_sec;
 
-	always@(posedge clk or negedge rstn) begin
+	always@(posedge clk_sec or negedge rstn) begin
 		if(rstn) begin
 			if(bud_state) begin
 				if({hourdec_now,hourone_now,mindec_now,minone_now}=={hourdec_bud, hourone_bud, mindec_bud, minone_bud}) begin
@@ -20,7 +20,7 @@ module sound_control(
 					counter_sec<=counter_sec+1;
 				end else begin
 					aud_en<=0;
-					counter<=0;
+					counter_sec<=0;
 				end
 			end
 
@@ -30,7 +30,7 @@ module sound_control(
 		end else begin
 			bud_state<=bud_on;
 			aud_en<=0;
-			counter<=0;
+			counter_sec<=0;
 
 		end
 
